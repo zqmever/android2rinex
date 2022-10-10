@@ -5,7 +5,7 @@ classdef FormatSpec
     end
 
     enumeration
-        % Raw
+        %% Raw
         utcTimeMillis                             ('%d64')
         TimeNanos                                 ('%d64')
         LeapSecond                                ('%d')
@@ -43,7 +43,7 @@ classdef FormatSpec
         CodeType                                  ('%s')
         ChipsetElapsedRealtimeNanos               ('%d64')
 
-        % Status
+        %% Status
         UnixTimeMillis                            ('%d64')                   
         SignalCount                               ('%d')                
         SignalIndex                               ('%d')                
@@ -58,14 +58,14 @@ classdef FormatSpec
         HasEphemerisData                          ('%d')                     
         % BasebandCn0DbHz                           ('%f')                      
 
-        % OrientationDeg
+        %% OrientationDeg
         % utcTimeMillis                             ('%d64')                      
         elapsedRealtimeNanos                      ('%d64')                           
         yawDeg                                    ('%f')             
         rollDeg                                   ('%f')              
         pitchDeg                                  ('%f')               
 
-        % Fix
+        %% Fix
         Provider                                  ('%s')                
         LatitudeDegrees                           ('%f')                       
         LongitudeDegrees                          ('%f')                        
