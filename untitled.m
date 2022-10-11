@@ -38,7 +38,7 @@ while i < raw_max
     end
 
         [prNanos, tRxNanos] = CheckWeekRollover(tRxNanos, tTxNanos);
-        PrM = (double(prNanos) + tRxNanosGnssFrac) / 1e9 * GpsConstants.LIGHTSPEED;
+        PrM = (double(prNanos) + tRxNanosGnssFrac) / 1e9 * GnssConstants.LIGHTSPEED;
 
         sprintf('%.6f', PrM)
 %     end

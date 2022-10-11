@@ -13,11 +13,17 @@ classdef GnssConstants
 
         GLOTIMEOFFSETSEC = 3 * 3600;
         GLOTIMEOFFSETSECNANOS = int64(GnssConstants.GLOTIMEOFFSETSEC * 1e9);
+    end
 
+    properties (Constant)
+        % constellation code
+        UNK = 0;
         GPS = 1;
+        SBA = 2;
         GLO = 3;
-        GAL = 6;
+        QZS = 4;
         BDS = 5;
-        UNK = 9;
+        GAL = 6;
+        IRN = 7;
     end
 end
