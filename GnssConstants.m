@@ -14,8 +14,8 @@ classdef GnssConstants
         GLOTIMEOFFSETSEC = 3 * 3600;
         GLOTIMEOFFSETSECNANOS = int64(GnssConstants.GLOTIMEOFFSETSEC * 1e9);
 
-        BDSTIMEOFFSETSEC = 14;
-        BDSTIMEOFFSETSECNANOS = int64(GnssConstants.BDSTIMEOFFSETSEC * 1e9);
+        BDSTOGPSTIMESEC = 14;
+        BDSTOGPSTIMESECNANOS = int64(GnssConstants.BDSTOGPSTIMESEC * 1e9);
     end
 
     properties (Constant)
