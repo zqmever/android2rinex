@@ -4,7 +4,7 @@ raw_file = fullfile(pwd, 'tests', 'gnss_log_2022_10_03_11_27_19.txt');
 gnss_raw = read_raw_file(raw_file);
 
 
-
+%% parse
 tTxNanos = gnss_raw.Raw.ReceivedSvTimeNanos;
 
 FullBiasNanos1 = gnss_raw.Raw.FullBiasNanos(1);
@@ -75,8 +75,8 @@ epoch_pool = T + this_duration + seconds(double(this_frac) ./ 1e9);
 
 
 
+%% write to file
 fid = fopen([raw_file, '.obs'], 'w+');
-
 
 % add header
 fprintf(fid, '     3.04           OBSERVATION DATA    M                   RINEX VERSION / TYPE\n');
@@ -207,7 +207,7 @@ fclose(fid);
 
 
 
-
+%% functions
 function [prNanos, tRxNanos]  = CheckWeekRollover(tRxNanos, tTxNanos)
     %utility function for ProcessGnssMeas
     
@@ -292,15 +292,15 @@ function [band, glo_k] = getBand(frequency, constellation)
         band(glo_filter & i_freq == 122)   = 6;
         band(glo_filter & i_freq == 117.5) = 3;
 
-        glo_g1_k = round((frequency(glo_filter) - 1602e6) ./ (9 / 16 * 1e6), 1);
-        glo_g1 = glo_g1_k >= -7 & glo_g1_k <= 12 & mod(glo_g1_k, 1) == 0;
-        glo_k(glo_filter) = glo_g1 .* glo_g1_k;
-        band(glo_filter) = 1 .* glo_g1;
+        glo_g1_k = round((frequency - 1602e6) ./ (9 / 16 * 1e6), 1);
+        glo_g1 = glo_filter & glo_g1_k >= -7 & glo_g1_k <= 12 & mod(glo_g1_k, 1) == 0;
+        glo_k(glo_g1) = glo_g1_k(glo_g1);
+        band(glo_g1) = 1;
 
-        glo_g2_k = round((frequency(glo_filter) - 1246e6) ./ (7 / 16 * 1e6), 1);
-        glo_g2 = glo_g2_k >= -7 & glo_g2_k <= 12 & mod(glo_g2_k, 1) == 0;
-        glo_k(glo_filter) = glo_g2 .* glo_g2_k;
-        band(glo_filter) = 2 .* glo_g2;
+        glo_g2_k = round((frequency - 1246e6) ./ (7 / 16 * 1e6), 1);
+        glo_g2 = glo_filter & glo_g2_k >= -7 & glo_g2_k <= 12 & mod(glo_g2_k, 1) == 0;
+        glo_k(glo_g2) = glo_g2_k(glo_g2);
+        band(glo_g2) = 2;
     end
 end
 
