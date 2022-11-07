@@ -1,6 +1,6 @@
 classdef DataSet < handle
     properties
-        info;
+        info (1,1) struct;
         data (:,1) android.DataFrame;
     end
 

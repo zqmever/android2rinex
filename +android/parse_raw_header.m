@@ -1,13 +1,23 @@
-function gnss_dataset = parse_raw_header(gnss_dataset, raw_line)
-    if strlength(raw_line) > 3
-        if contains(raw_line, ':') && ~contains(raw_line, 'Header Description', 'IgnoreCase', true)
-            this_header = regexp(raw_line, '([A-Z][A-Za-z]+):[ ]*([\w\S]*)', 'tokens');
-            for i = 1:length(this_header)
-                gnss_dataset.info.(lower(this_header{i}{1})) = this_header{i}{2};
+function gnss_dataset = parse_raw_header(fileID, gnss_dataset)
+    % read and parse raw header
+    while ~feof(fileID)
+        this_line = fgetl(fileID);
+        if strlength(this_line) > 3
+            if this_line(1) == '#'
+                if contains(this_line, ':') && ~contains(this_line, 'Header Description', 'IgnoreCase', true)
+                    this_header = regexp(this_line, '([A-Z][A-Za-z]+):[ ]*([\w\S]*)', 'tokens');
+                    for i = 1:length(this_header)
+                        gnss_dataset.info.(lower(this_header{i}{1})) = this_header{i}{2};
+                    end
+                elseif contains(this_line, ',')
+                    raw_cell = textscan(this_line, '%s', 'Delimiter', {',', '#'}, 'MultipleDelimsAsOne', true);
+                    this_data_frame = android.DataFrame(raw_cell{1}{1});
+                    this_data_frame.header = raw_cell{1}(2:end);
+                    gnss_dataset.data(end+1) = this_data_frame;
+                end
+            else
+                break;
             end
-        elseif contains(raw_line, ',')
-            gnss_dataset.data(end+1) = android.create_data_frame(raw_line);
         end
     end
 end
-

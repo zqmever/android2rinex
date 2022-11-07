@@ -1,12 +1,14 @@
 function data_frame = fill_data_frame(data_frame, raw_data)
-    
+    % init the output
     data_frame.data = table.empty;
 
+    % check if the header is empty
     if isempty(data_frame.header)
         return;
     end
 
-    formatspec_list = android.search_format_spec(data_frame.id);
+    % generate the format spec
+    formatspec_list = android.formatSpec.search(data_frame.id);
     if ~isempty(formatspec_list)
         this_formatspec = '';
         for i = 1:length(data_frame.header)
@@ -20,6 +22,7 @@ function data_frame = fill_data_frame(data_frame, raw_data)
         return;
     end
 
+    % parse the data
     raw_data_index = strcmp(raw_data{1}, data_frame.id);
     if any(raw_data_index)
         this_raw_data = raw_data{2}(raw_data_index);
