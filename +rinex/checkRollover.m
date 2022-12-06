@@ -9,8 +9,7 @@ function [prNanos, tRxNanos]  = checkRollover(tRxNanos, tTxNanos, rollover_nanos
     iRollover = prNanos > rollover_nanos / 2;
 
     if any(iRollover)
-        disp('WARNING: rollover detected in time tags. ')
-        disp('Adjusting ...')
+        warning('Rollover detected in time tags. Adjusting ... \n')
         prS = prNanos(iRollover);
         prS = rinex.wrapToX(prS, rollover_nanos / 2);
         % prS are in the range [-WEEKSEC/2 : WEEKSEC/2];
@@ -22,7 +21,7 @@ function [prNanos, tRxNanos]  = checkRollover(tRxNanos, tTxNanos, rollover_nanos
             prNanos(iRollover) = prS; % put back into prSeconds vector
             % Now adjust tRxSeconds by the same amount:
             tRxNanos(iRollover) = tTxNanos(iRollover) + prS;
-            disp('Corrected rollover. ')
+            fprintf('Corrected rollover. \n')
         end
     end
 end
