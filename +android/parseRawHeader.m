@@ -1,4 +1,4 @@
-function gnss_dataset = parse_raw_header(fileID, gnss_dataset)
+function gnss_dataset = parseRawHeader(fileID, gnss_dataset)
     % read and parse raw header
     while ~feof(fileID)
         this_line = fgetl(fileID);

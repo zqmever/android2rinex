@@ -23,4 +23,19 @@ classdef DataFrame < handle
             self.id = id;
         end
     end
+
+    methods
+        function data = getData(self, field, i)
+            % check if the field exists
+            if ismember(field, self.header)
+                if nargin > 2
+                    data = self.data.(field)(i);
+                else
+                    data = self.data.(field);
+                end
+            else
+                data = {};
+            end
+        end
+    end
 end

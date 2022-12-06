@@ -1,4 +1,4 @@
-function line_out = word_wrap(line_in, data_unit_length, line_length_max)
+function line_out = wrapWord(line_in, data_unit_length, line_length_max)
     % convert to string
     if ~isstring(line_in)
         line_in = string(line_in);

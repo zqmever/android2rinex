@@ -1,4 +1,4 @@
-function data_frame = fill_data_frame(data_frame, raw_data)
+function data_frame = fillDataFrame(data_frame, raw_data)
     % init the output
     data_frame.data = table.empty;
 
