@@ -74,14 +74,14 @@ function rinex_dataset = convertRawToMeas(gnss_raw_data_frame, rinex_dataset)
     rinex_dataset.code_type = CodeType;
     rinex_dataset.updateHeader();
     
-    epoch_time = T + this_duration + seconds(double(this_frac) ./ 1e9);
-    satellite = [ConstellationType, Svid];
-    % pseudorange = pseudorange + [0, nan, nan];
-    % carrier_phase = carrier_phase + [0, nan, nan];
-    % doppler = doppler + [0, nan, nan];
-    % signal_strength = signal_strength + [0, nan, nan];
-    frequency_band = rinex_dataset.frequency_band;
-    glo_freq_num = rinex_dataset.glo_freq_num;
-    rinex_dataset.data = [rinex_dataset.data; table(epoch_time, pseudorange, carrier_phase, doppler, signal_strength, frequency_band, satellite, glo_freq_num, ...
-        'VariableNames', ["epoch_time", "pseudorange", "carrier_phase", "doppler", "signal_strengt", "frequency_band", "satellite", "glo_freq_num"])];
+    % epoch_time = T + this_duration + seconds(double(this_frac) ./ 1e9);
+    % satellite = [ConstellationType, Svid];
+    % % pseudorange = pseudorange + [0, nan, nan];
+    % % carrier_phase = carrier_phase + [0, nan, nan];
+    % % doppler = doppler + [0, nan, nan];
+    % % signal_strength = signal_strength + [0, nan, nan];
+    % frequency_band = rinex_dataset.frequency_band;
+    % glo_freq_num = rinex_dataset.glo_freq_num;
+    % rinex_dataset.data = [rinex_dataset.data; table(epoch_time, pseudorange, carrier_phase, doppler, signal_strength, frequency_band, satellite, glo_freq_num, ...
+    %     'VariableNames', ["epoch_time", "pseudorange", "carrier_phase", "doppler", "signal_strength", "frequency_band", "satellite", "glo_freq_num"])];
 end

@@ -5,7 +5,7 @@
 test_data_folder = fullfile(pwd, 'tests');
 % specify the input and output file names
 test_data_file_input  = 'gnss_log_2022_10_03_11_27_19.txt';
-test_data_file_output = 'aa.obs';
+test_data_file_output = 'gnss_log_2022_10_03_11_27_19.obs';
 
 % get the full path to the input file
 test_data_file_full = fullfile(test_data_folder, test_data_file_input);
