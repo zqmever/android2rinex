@@ -113,12 +113,8 @@ classdef (Abstract) RinexDataSet < handle
         end
 
         function data_string = getDataString(~, data_slice)
-            this_data = cell(1,3);
-            for i = 1:min(3, length(data_slice))
-                if ~isnan(data_slice(i))
-                    this_data{i} = data_slice(i);
-                end
-            end
+            this_data = num2cell(data_slice');
+            this_data(cellfun(@isnan, this_data)) = {[]};
             data_string = sprintf('%14.3f%1d%1d', this_data{:});
         end
     end

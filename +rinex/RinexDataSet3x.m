@@ -124,33 +124,34 @@ classdef RinexDataSet3x < rinex.RinexDataSet
 
                 n_satellites = size(this_satellite_unique, 1);
 
+                n_obs_type = length(self.header.observation_type);
+
                 self.writeLine(file_id, sprintf('> %s%3d%3d%6s%15.12f', epoch_time_unique(i), 0, n_satellites, '', 0))
 
                 for j = 1:n_satellites
-                    this_line = sprintf('%s%02d', rinex.Constellation(this_satellite_unique(j, 1)).toString(), this_satellite_unique(j, 2));
-
                     this_obs_type_list = self.header.sys_obs_types(vertcat(self.header.sys_obs_types.system) == this_satellite_unique(j, 1)).obs_type;
+
+                    this_meas = nan(length(this_obs_type_list) * n_obs_type, 3);
+
                     for k = 1:length(this_obs_type_list)
                         this_obs_index = this_epoch_index & all(self.satellite == this_satellite_unique(j, :), 2) & obs_code == this_obs_type_list(k);
 
-                        for m = 1:length(self.header.observation_type)
-                            this_meas = nan(1,3);
+                        for m = 1:n_obs_type
                             if any(this_obs_index)
                                 switch self.header.observation_type(m)
                                     case "C"
-                                        this_meas = self.pseudorange(this_obs_index, :);
+                                        this_meas((k-1) * n_obs_type + m, :) = self.pseudorange(this_obs_index, :);
                                     case "L"
-                                        this_meas = self.carrier_phase(this_obs_index, :);
+                                        this_meas((k-1) * n_obs_type + m, :) = self.carrier_phase(this_obs_index, :);
                                     case "D"
-                                        this_meas = self.doppler(this_obs_index, :);
+                                        this_meas((k-1) * n_obs_type + m, :) = self.doppler(this_obs_index, :);
                                     case "S"
-                                        this_meas = self.signal_strength(this_obs_index, :);
+                                        this_meas((k-1) * n_obs_type + m, :) = self.signal_strength(this_obs_index, :);
                                 end
                             end
-                            this_line = sprintf('%s%s', this_line, self.getDataString(this_meas));
                         end
                     end
-                    self.writeLine(file_id, this_line);
+                    self.writeLine(file_id, sprintf('%s%02d%s', rinex.Constellation(this_satellite_unique(j, 1)).toString(), this_satellite_unique(j, 2), self.getDataString(this_meas)));
                 end
             end
         end

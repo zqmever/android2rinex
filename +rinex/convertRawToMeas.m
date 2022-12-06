@@ -66,10 +66,10 @@ function rinex_dataset = convertRawToMeas(gnss_raw_data_frame, rinex_dataset)
     this_duration = seconds(double((tRxNanosGnss - this_frac) ./ 1e9));
     rinex_dataset.epoch_time = T + this_duration + seconds(double(this_frac) ./ 1e9);
     rinex_dataset.satellite = [ConstellationType, Svid];
-    rinex_dataset.pseudorange = pseudorange;
-    rinex_dataset.carrier_phase = carrier_phase;
-    rinex_dataset.doppler = doppler;
-    rinex_dataset.signal_strength = signal_strength;
+    rinex_dataset.pseudorange = pseudorange + [0, nan, nan];
+    rinex_dataset.carrier_phase = carrier_phase + [0, nan, nan];
+    rinex_dataset.doppler = doppler + [0, nan, nan];
+    rinex_dataset.signal_strength = signal_strength + [0, nan, nan];
     [rinex_dataset.frequency_band, rinex_dataset.glo_freq_num] = rinex.getFrequencyBand(CarrierFrequencyHz, ConstellationType);
     rinex_dataset.code_type = CodeType;
     rinex_dataset.updateHeader();
