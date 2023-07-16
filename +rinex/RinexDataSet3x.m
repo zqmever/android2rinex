@@ -25,8 +25,8 @@ classdef RinexDataSet3x < rinex.RinexDataSet
         end
 
         function self = updateHeader(self)
-            [satellite_list_unique, ia, ~] = unique(self.satellite, "rows");
-            system_list_unique = unique(self.satellite(:,1));
+            [satellite_list_unique, ia, ~] = unique(horzcat(self.constellation, self.prn), "rows");
+            system_list_unique = unique(self.constellation);
 
             % update the time of the first epoch
             self.header.time_first_epoch = self.epoch_time(1);
@@ -36,7 +36,7 @@ classdef RinexDataSet3x < rinex.RinexDataSet
             for i = 1:length(system_list_unique)
                 self.header.sys_obs_types(i).system = system_list_unique(i);
 
-                this_satellite_list = self.satellite(:,1) == system_list_unique(i);
+                this_satellite_list = self.constellation == system_list_unique(i);
                 self.header.sys_obs_types(i).obs_type = unique(strcat(num2str(self.frequency_band(this_satellite_list)), self.code_type(this_satellite_list)));
             end
 
@@ -120,7 +120,7 @@ classdef RinexDataSet3x < rinex.RinexDataSet
 
             for i = 1:length(epoch_time_unique)
                 this_epoch_index = self.epoch_time == epoch_time_unique(i);
-                this_satellite_unique = unique(self.satellite(this_epoch_index, :), "rows");
+                this_satellite_unique = unique(horzcat(self.constellation(this_epoch_index), self.prn(this_epoch_index)), "rows");
 
                 n_satellites = size(this_satellite_unique, 1);
 
@@ -131,7 +131,10 @@ classdef RinexDataSet3x < rinex.RinexDataSet
 
                     this_obs_type_list = self.header.sys_obs_types(vertcat(self.header.sys_obs_types.system) == this_satellite_unique(j, 1)).obs_type;
                     for k = 1:length(this_obs_type_list)
-                        this_obs_index = this_epoch_index & all(self.satellite == this_satellite_unique(j, :), 2) & obs_code == this_obs_type_list(k);
+                        this_obs_index = this_epoch_index ...
+                                       & self.constellation == this_satellite_unique(j, 1) ...
+                                       & self.prn == this_satellite_unique(j, 2) ...
+                                       & obs_code == this_obs_type_list(k);
 
                         for m = 1:length(self.header.observation_type)
                             this_meas = nan(1,3);

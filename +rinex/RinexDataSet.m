@@ -8,28 +8,14 @@ classdef (Abstract) RinexDataSet < handle
     % body
     properties
         epoch_time;
-        satellite;
+        constellation;
+        prn;
         pseudorange;
         carrier_phase;
         doppler;
         signal_strength;
         frequency_band;
         glo_freq_num;
-    end
-
-    properties
-        data;
-    end
-
-    properties (Access = protected)
-        variable_names_types = [["epoch_time",     "datetime"];...
-                                ["satellite",      "double"];...
-                                ["pseudorange",    "double"];...
-                                ["carrier_phase",  "double"];...
-                                ["doppler",        "double"];...
-                                ["signal_strengt", "double"];...
-                                ["frequency_band", "double"];...
-                                ["glo_freq_num",   "double"]];
     end
 
     methods (Access = public)
@@ -79,25 +65,14 @@ classdef (Abstract) RinexDataSet < handle
 
             % DATA
             self.epoch_time      = NaT(0,1);
-            self.satellite       = nan(0,2);
+            self.constellation   = nan(0,1);
+            self.prn             = nan(0,1);
             self.pseudorange     = nan(0,3);
             self.carrier_phase   = nan(0,3);
             self.doppler         = nan(0,3);
             self.signal_strength = nan(0,3);
             self.frequency_band  = nan(0,1);
             self.glo_freq_num    = nan(0,1);
-
-            variable_names_types = [["epoch_time",     "datetime"];...
-                                    ["satellite",      "double"];...
-                                    ["pseudorange",    "double"];...
-                                    ["carrier_phase",  "double"];...
-                                    ["doppler",        "double"];...
-                                    ["signal_strengt", "double"];...
-                                    ["frequency_band", "double"];...
-                                    ["glo_freq_num",   "double"]];
-            self.data = table('Size',[0, size(variable_names_types,1)],... 
-	                          'VariableNames', variable_names_types(:,1),...
-	                          'VariableTypes', variable_names_types(:,2));
         end
 
         function writeToFile(self, file_name)
