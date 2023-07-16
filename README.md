@@ -40,18 +40,18 @@ android_dataset = android.readRawFile(raw_file, [android_dataset])
 rinex_dataset = rinex.newRinexDataSet([rinex_version])
 ```
 - Inputs:
-    - `rinex_version` [optional] RINEX format version
+    - `rinex_version` [optional] RINEX version, if not specified, the default value is `3.04`
 
 - Outputs:
     - `rinex_dataset` RINEX dataset
 
 ### Convert the Android GNSS dataset to the RINEX dataset
 ```python
-rinex_dataset = rinex.convertAndroidToRinex(android_dataset, [rinex_dataset])
+rinex_dataset = rinex.convertAndroidToRinex(rinex_version, android_dataset)
 ```
 - Inputs:
+    - `rinex_version` RINEX version, if not specified, the default value is `3.04`
     - `android_dataset` Android GNSS raw observation dataset
-    - `rinex_dataset` [optional] RINEX dataset
 
 - Outputs:
     - `rinex_dataset` RINEX dataset

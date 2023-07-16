@@ -1,11 +1,13 @@
-function rinex_dataset = convertAndroidToRinex(android_raw_dataset, rinex_dataset)
+function rinex_dataset = convertAndroidToRinex(rinex_version, android_raw_dataset)
 
-    if nargin < 2 || isempty(rinex_dataset)
+    if isempty(rinex_version)
         rinex_version = 3.04;
         fprintf('RINEX version is not specified. \n');
         fprintf('RINEX %.2f will be used. \n', rinex_version);
-        rinex_dataset = rinex.newRinexDataSet(rinex_version);
     end
+
+    % new the rinex dataset
+    rinex_dataset = rinex.newRinexDataSet(rinex_version);
 
     % parse the header
     rinex_dataset.header.run_by = strcat(android_raw_dataset.info.manufacturer, " ", android_raw_dataset.info.model);

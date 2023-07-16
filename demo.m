@@ -13,15 +13,12 @@ test_data_file_full = fullfile(test_data_folder, test_data_file_input);
 %% read the Android GNSS raw dataset
 gnss_raw_dataset = android.readRawFile(test_data_file_full);
 
-%% convert the Android raw data to a RINEX dataset
-% first create a RINEX dataset with the specified version
-rinex_version = 3.04;
-rinex_dataset = rinex.newRinexDataSet(rinex_version);
-% then fill the data 
-rinex_dataset = rinex.convertAndroidToRinex(gnss_raw_dataset, rinex_dataset);
+%% convert the Android raw data to a RINEX dataset with the specified version
+rinex_version = 3.04; 
+rinex_dataset = rinex.convertAndroidToRinex(rinex_version, gnss_raw_dataset);
 
 % OR let the program create a RINEX dataset itself (using the default RINEX version) 
-% rinex_dataset = rinex.convertAndroidToRinex(gnss_raw_dataset);
+% rinex_dataset = rinex.convertAndroidToRinex([], gnss_raw_dataset);
 
 %% make some changes to the header
 % blah blah blah ...
