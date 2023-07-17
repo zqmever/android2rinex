@@ -14,6 +14,9 @@ function rinex_dataset = convertRawToMeas(gnss_raw_data_frame)
     FullInterSignalBiasNanos = gnss_raw_data_frame.getData('FullInterSignalBiasNanos');
     
     LeapSecond = gnss_raw_data_frame.getData('LeapSecond');
+    if all(LeapSecond == 0)
+        LeapSecond = LeapSecond + 18;
+    end
     
     CarrierFrequencyHz             = gnss_raw_data_frame.getData('CarrierFrequencyHz');
     AccumulatedDeltaRangeMeters    = gnss_raw_data_frame.getData('AccumulatedDeltaRangeMeters');
@@ -50,6 +53,7 @@ function rinex_dataset = convertRawToMeas(gnss_raw_data_frame)
     
     [prNanos, tRxNanos] = rinex.checkRollover(tRxNanos, tTxNanos, rinex.GnssConstants.WEEKSECNANOS);
     pseudorange = (double(prNanos) + tRxNanosGnssFrac - FullInterSignalBiasNanos) / 1e9 * rinex.GnssConstants.LIGHTSPEED;
+    pseudorange(pseudorange<0 | pseudorange>3e8) = nan;
     
     %% calculate carrier phases
     wavelength = rinex.GnssConstants.LIGHTSPEED ./ CarrierFrequencyHz;
