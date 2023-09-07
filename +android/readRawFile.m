@@ -1,13 +1,11 @@
-function gnss_dataset = readRawFile(gnss_raw_file, gnss_dataset)
+function gnss_dataset = readRawFile(gnss_raw_file)
     % check if the file exists
     if ~isfile(gnss_raw_file)
         error('Cannot find the GNSS raw file: %s', gnss_raw_file);
     end
 
-    if nargin < 2
-        % generate a new dataset
-        gnss_dataset = android.DataSet();
-    end
+    % generate a new dataset
+    gnss_dataset = android.DataSet(gnss_raw_file);
 
     % read the file
     fid = fopen(gnss_raw_file, 'r');

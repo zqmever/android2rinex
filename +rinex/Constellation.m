@@ -1,4 +1,4 @@
-classdef Constellation < uint8
+classdef Constellation < uint16
     % The enumeration class for constellation.
     %
     

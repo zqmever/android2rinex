@@ -52,24 +52,29 @@ function rinex_dataset = convertRawToMeas(gnss_raw_data_frame, rinex_dataset)
     
     %% calculate carrier phases
     wavelength = rinex.GnssConstants.LIGHTSPEED ./ CarrierFrequencyHz;
-    carrier_phase = AccumulatedDeltaRangeMeters ./ wavelength;
+    phase = AccumulatedDeltaRangeMeters ./ wavelength;
     
     %% calculate doppler
     doppler = - PseudorangeRateMetersPerSecond ./ wavelength;
     
     %% calculate signal strength
-    signal_strength = Cn0DbHz;
+    strength = Cn0DbHz;
+    strength(isnan(strength)) = 0;
     
     %% fill the rinex dataset
-    T = datetime(1980,1,6,0,0,0,0,'Format','uuuu MM dd HH mm ss.SSSSSSS');
+    T = datetime(1980,1,6,0,0,0,0);
     this_frac = mod(tRxNanosGnss, 1e9);
     this_duration = seconds(double((tRxNanosGnss - this_frac) ./ 1e9));
+    
     rinex_dataset.epoch_time = T + this_duration + seconds(double(this_frac) ./ 1e9);
+
     rinex_dataset.satellite = [ConstellationType, Svid];
+    
     rinex_dataset.pseudorange = pseudorange + [0, nan, nan];
-    rinex_dataset.carrier_phase = carrier_phase + [0, nan, nan];
-    rinex_dataset.doppler = doppler + [0, nan, nan];
-    rinex_dataset.signal_strength = signal_strength + [0, nan, nan];
+    rinex_dataset.phase       = phase       + [0, nan, nan];
+    rinex_dataset.doppler     = doppler     + [0, nan, nan];
+    rinex_dataset.strength    = strength    + [0, nan, nan];
+
     [rinex_dataset.frequency_band, rinex_dataset.glo_freq_num] = rinex.getFrequencyBand(CarrierFrequencyHz, ConstellationType);
     rinex_dataset.code_type = CodeType;
     rinex_dataset.updateHeader();

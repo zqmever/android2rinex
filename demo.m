@@ -14,6 +14,9 @@ test_data_file_full = fullfile(test_data_folder, test_data_file_input);
 gnss_raw_dataset = android.readRawFile(test_data_file_full);
 
 %% convert the Android raw data to a RINEX dataset
+rinex_dataset = rinex.convertAndroidToRinex(gnss_raw_dataset);
+
+%% convert the Android raw data to a RINEX dataset
 % first create a RINEX dataset with the specified version
 rinex_version = 3.04;
 rinex_dataset = rinex.newRinexDataSet(rinex_version);

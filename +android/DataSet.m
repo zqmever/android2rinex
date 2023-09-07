@@ -1,11 +1,17 @@
 classdef DataSet < handle
+    properties (SetAccess = protected)
+        source_file string;
+    end
+
     properties
         info (1,1) struct;
         data (:,1) android.DataFrame;
     end
 
     methods
-        function self = DataSet()
+        function self = DataSet(source_file_full_path)
+            self.source_file = source_file_full_path;
+
             self.info.version      = 'Unknown';
             self.info.platform     = 'Unknown';
             self.info.manufacturer = 'Unknown';
